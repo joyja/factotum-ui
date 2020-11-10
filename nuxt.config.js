@@ -31,13 +31,22 @@ export default {
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: [],
+  modules: ['@nuxtjs/apollo'],
+
+  /*
+   ** apollo module configuration
+   ** https://github.com/nuxt-community/apollo-module
+   */
+  apollo: {
+    clientConfigs: {
+      default: '~/plugins/apollo-config.js',
+    },
+  },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
       themes: {
         dark: {
           primary: colors.blue.darken2,

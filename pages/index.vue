@@ -1,79 +1,54 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
+  <v-row>
+    <v-col
+      v-for="(container, index) in containers"
+      :key="container.name"
+      cols="12"
+      sm="6"
+      md="4"
+      lg="3"
+      xl="2"
+    >
+      <v-card
+        class="d-flex flex-column justify-space-between"
+        style="height: 100%"
+        color="blue-grey lighten-3"
+      >
+        <v-card-title>
+          <v-list-item style="width: 100%">
+            <v-list-item-content>
+              <v-list-item-title>{{ container.name }}</v-list-item-title>
+              <v-list-item-subtitle class="text-truncate">{{
+                container.description
+              }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
         </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation </a
-            >.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
         <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
+          <v-dialog v-model="configs[index].showDisplay" width="600px">
+            <v-form @submit.prevent="setDescription(index)">
+              <v-card>
+                <v-card-title>Edit {{ container.name }}</v-card-title>
+                <v-card-text>
+                  <v-text-field
+                    v-model="configs[index].description"
+                    label="description"
+                  />
+                </v-card-text>
+                <v-card-actions class="d-flex">
+                  <v-btn type="submit" class="flex-grow-1">apply</v-btn>
+                  <v-btn
+                    class="flex-grow-1"
+                    @click="configs[index].showDisplay = false"
+                    >cancel</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </v-form>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn block v-bind="attrs" v-on="on">edit</v-btn>
+            </template>
+          </v-dialog>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -81,13 +56,55 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
-
+import graphql from '~/graphql'
 export default {
-  components: {
-    Logo,
-    VuetifyLogo,
+  async asyncData({ app, params }) {
+    const provider = app.apolloProvider
+    const client = provider.defaultClient
+    let error = null
+    const containers = await client
+      .query({
+        query: graphql.query.containers,
+      })
+      .then(({ data: { containers } }) => {
+        return containers
+      })
+      .catch((e) => {
+        error = e
+      })
+    return {
+      containers,
+      configs: containers.map(({ description }) => {
+        return {
+          description,
+          showDialog: false,
+        }
+      }),
+      error,
+    }
+  },
+  methods: {
+    async setDescription(index) {
+      await this.$apollo.mutate({
+        mutation: graphql.mutation.setDescription,
+        variables: {
+          containerName: this.containers[index].name,
+          description: this.configs[index].description,
+        },
+      })
+      await this.$apollo.queries.containers.refetch()
+      this.configs = this.containers.map(({ description }) => {
+        return {
+          description,
+          showDialog: false,
+        }
+      })
+    },
+  },
+  apollo: {
+    containers: {
+      query: graphql.query.containers,
+    },
   },
 }
 </script>
