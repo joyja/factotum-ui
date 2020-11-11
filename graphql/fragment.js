@@ -1,5 +1,23 @@
 import gql from 'graphql-tag'
 
+const config = gql`
+  fragment ConfigBasic on Config {
+    securityNesting
+    userUserData
+  }
+`
+
+const profile = gql`
+  fragment ProfileBasic on Profile {
+    name
+    description
+    config {
+      ...ConfigBasic
+    }
+  }
+  ${config}
+`
+
 const container = gql`
   fragment ContainerBasic on Container {
     name
@@ -18,4 +36,6 @@ const container = gql`
 
 export default {
   container,
+  config,
+  profile,
 }

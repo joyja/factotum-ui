@@ -1,8 +1,8 @@
 <template>
   <v-row>
     <v-col
-      v-for="(container, index) in containers"
-      :key="container.name"
+      v-for="(profile, index) in profiles"
+      :key="profile.name"
       cols="12"
       sm="12"
       md="6"
@@ -19,19 +19,14 @@
             <v-list-item-avatar horizontal rounded="0">
               <v-row align="end" no-gutters>
                 <v-avatar size="36px" color="blue-grey lighten-5"
-                  ><v-icon>mdi-server</v-icon></v-avatar
+                  ><v-icon>mdi-file-document</v-icon></v-avatar
                 >
-                <v-avatar
-                  style="margin-bottom: 3px; margin-left: -7px"
-                  size="7px"
-                  :color="container.status === 'Running' ? 'green' : 'grey'"
-                ></v-avatar>
               </v-row>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title>{{ container.name }}</v-list-item-title>
+              <v-list-item-title>{{ profile.name }}</v-list-item-title>
               <v-list-item-subtitle class="text-truncate">{{
-                container.description
+                profile.description
               }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -40,7 +35,7 @@
           <v-dialog v-model="configs[index].showDisplay" width="600px">
             <v-form @submit.prevent="setDescription(index)">
               <v-card>
-                <v-card-title>Edit {{ container.name }}</v-card-title>
+                <v-card-title>Edit {{ profile.name }}</v-card-title>
                 <v-card-text>
                   <v-text-field
                     v-model="configs[index].description"
@@ -74,19 +69,19 @@ export default {
     const provider = app.apolloProvider
     const client = provider.defaultClient
     let error = null
-    const containers = await client
+    const profiles = await client
       .query({
-        query: graphql.query.containers,
+        query: graphql.query.profiles,
       })
-      .then(({ data: { containers } }) => {
-        return containers
+      .then(({ data: { profiles } }) => {
+        return profiles
       })
       .catch((e) => {
         error = e
       })
     return {
-      containers,
-      configs: containers.map(({ description }) => {
+      profiles,
+      configs: profiles.map(({ description }) => {
         return {
           description,
           showDialog: false,
@@ -114,8 +109,8 @@ export default {
     },
   },
   apollo: {
-    containers: {
-      query: graphql.query.containers,
+    profiles: {
+      query: graphql.query.profiles,
     },
   },
 }

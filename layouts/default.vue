@@ -65,7 +65,7 @@ export default {
         {
           icon: 'mdi-file-document',
           title: 'Profiles',
-          // to: '/inspire',
+          to: '/profiles',
         },
         {
           icon: 'mdi-engine',
