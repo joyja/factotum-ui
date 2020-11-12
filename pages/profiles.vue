@@ -1,37 +1,109 @@
 <template>
-  <v-row>
-    <v-col
-      v-for="(profile, index) in profiles"
-      :key="profile.name"
-      cols="12"
-      sm="12"
-      md="6"
-      lg="4"
-      xl="3"
-    >
-      <v-card
-        class="d-flex flex-column justify-space-between"
-        style="height: 100%"
-        color="blue-grey lighten-3"
+  <div>
+    <v-row>
+      <v-col
+        v-for="profile in profiles"
+        :key="profile.name"
+        cols="12"
+        sm="12"
+        md="12"
+        lg="6"
+        xl="6"
       >
-        <v-card-title>
-          <v-list-item style="width: 100%" dense>
-            <v-list-item-avatar horizontal rounded="0">
-              <v-row align="end" no-gutters>
-                <v-avatar size="36px" color="blue-grey lighten-5"
-                  ><v-icon>mdi-file-document</v-icon></v-avatar
+        <v-card
+          class="d-flex flex-column"
+          style="height: 100%"
+          color="blue-grey lighten-3"
+        >
+          <v-card-title>
+            <v-list-item style="width: 100%" dense>
+              <v-list-item-avatar horizontal rounded="0">
+                <v-row align="end" no-gutters>
+                  <v-avatar size="36px" color="blue-grey lighten-5"
+                    ><v-icon>mdi-file-document</v-icon></v-avatar
+                  >
+                </v-row>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>{{ profile.name }}</v-list-item-title>
+                <v-list-item-subtitle class="text-truncate">{{
+                  profile.description
+                }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-title>
+          <v-list color="blue-grey lighten-3">
+            <v-list-item v-if="profile.config.userUserData">
+              <v-list-item-content>User Data</v-list-item-content>
+              <v-list-item-action>
+                <v-dialog width="1000px" scrollable>
+                  <v-card>
+                    <v-card-title>
+                      {{ profile.name }} cloud-init user-data
+                    </v-card-title>
+                    <v-card-text style="white-space: pre">{{
+                      profile.config.userUserData
+                    }}</v-card-text>
+                  </v-card>
+                  <template v-slot:activator="{ on, attr }">
+                    <v-btn
+                      color="blue-grey"
+                      elevation="0"
+                      fab
+                      small
+                      dark
+                      v-bind="attr"
+                      v-on="on"
+                      ><v-icon dark>mdi-eye</v-icon></v-btn
+                    >
+                  </template>
+                </v-dialog>
+              </v-list-item-action>
+            </v-list-item>
+          </v-list>
+          <v-card-text>
+            <v-card
+              v-if="profile.devices && profile.devices.length > 0"
+              flat
+              color="blue-grey lighten-4"
+              dense
+            >
+              <v-card-title><div class="subtitle-2">Devices</div></v-card-title>
+              <v-expansion-panels style="background-color: #b0bec5">
+                <v-expansion-panel
+                  v-for="device in profile.devices"
+                  :key="device.id"
                 >
-              </v-row>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title>{{ profile.name }}</v-list-item-title>
-              <v-list-item-subtitle class="text-truncate">{{
-                profile.description
-              }}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-card-title>
-        <v-card-actions>
+                  <v-expansion-panel-header
+                    ><v-avatar class="flex-grow-0 flex-shrinkt-0"
+                      ><v-icon>{{
+                        getDeviceIcon(device.type)
+                      }}</v-icon></v-avatar
+                    >{{ device.id }}</v-expansion-panel-header
+                  >
+                  <v-expansion-panel-content class="ml-5">
+                    <v-row v-if="device.name">
+                      <v-col cols="1" lg="2">
+                        <strong>Name:</strong>
+                      </v-col>
+                      <v-col cols="11" lg="10">
+                        {{ device.name }}
+                      </v-col>
+                    </v-row>
+                    <v-row v-if="device.type">
+                      <v-col cols="1" lg="2">
+                        <strong>Type:</strong>
+                      </v-col>
+                      <v-col cols="11" lg="10">
+                        {{ device.type }}
+                      </v-col>
+                    </v-row>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels>
+            </v-card>
+          </v-card-text>
+          <!-- <v-card-actions>
           <v-dialog v-model="configs[index].showDisplay" width="600px">
             <v-form @submit.prevent="setDescription(index)">
               <v-card>
@@ -56,14 +128,36 @@
               <v-btn block v-bind="attrs" v-on="on">edit</v-btn>
             </template>
           </v-dialog>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+        </v-card-actions> -->
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-dialog width="1000px" scrollable>
+        <v-form>
+          <v-card>
+            <v-card-title>Create Profile</v-card-title>
+            <v-card-text><v-textarea label="yaml" /></v-card-text>
+            <v-card-actions class="d-flex"
+              ><v-btn class="flex-grow-1">create</v-btn
+              ><v-btn class="flex-grow-1">cancel</v-btn></v-card-actions
+            >
+          </v-card>
+        </v-form>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" color="primary" block v-on="on"
+            ><v-icon left>mdi-plus</v-icon>Create Profile</v-btn
+          >
+        </template>
+      </v-dialog>
+    </v-row>
+  </div>
 </template>
 
 <script>
+import yaml from 'js-yaml'
 import graphql from '~/graphql'
+
 export default {
   async asyncData({ app, params }) {
     const provider = app.apolloProvider
@@ -106,6 +200,18 @@ export default {
           showDialog: false,
         }
       })
+    },
+    getDeviceIcon(deviceType) {
+      if (deviceType === 'nic') {
+        return 'mdi-ethernet'
+      } else if (deviceType === 'disk') {
+        return 'mdi-harddisk'
+      } else {
+        return 'mdi-help-circle'
+      }
+    },
+    getYaml(text) {
+      return yaml.safeDump(yaml.safeLoad(text))
     },
   },
   apollo: {

@@ -31,7 +31,19 @@ export default {
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: ['@nuxtjs/apollo'],
+  modules: ['@nuxtjs/apollo', '@nuxt/content'],
+
+  /*
+   ** Content module configuration
+   ** See https://content.nuxtjs.org/configuration
+   */
+  content: {
+    markdown: {
+      prism: {
+        theme: 'prism-themes/themes/prism-material-dark.css',
+      },
+    },
+  },
 
   /*
    ** apollo module configuration

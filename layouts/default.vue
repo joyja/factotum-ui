@@ -59,8 +59,13 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Containers',
+          title: 'Applications',
           to: '/',
+        },
+        {
+          icon: 'mdi-apps-box',
+          title: 'Containers',
+          to: '/containers',
         },
         {
           icon: 'mdi-file-document',

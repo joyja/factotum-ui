@@ -1,122 +1,131 @@
 <template>
   <v-row>
     <v-col
-      v-for="(container, index) in containers"
-      :key="container.name"
-      cols="12"
-      sm="12"
-      md="6"
-      lg="4"
-      xl="3"
+      v-for="(selection, i) in softwareConfiguration"
+      :key="i"
+      :offset-sm="0"
+      :offset-md="[0, 4].includes(i) ? 2 : 0"
+      :offset-xl="[0, 4].includes(i) ? 4 : 0"
+      :offset="[0, 4].includes(i) ? 0 : 0"
+      sm="3"
+      md="2"
+      xl="1"
+      cols="6"
     >
       <v-card
-        class="d-flex flex-column justify-space-between"
-        style="height: 100%"
-        color="blue-grey lighten-3"
-      >
-        <v-card-title>
-          <v-list-item style="width: 100%" dense>
-            <v-list-item-avatar horizontal rounded="0">
-              <v-row align="end" no-gutters>
-                <v-avatar size="36px" color="blue-grey lighten-5"
-                  ><v-icon>mdi-server</v-icon></v-avatar
-                >
-                <v-avatar
-                  style="margin-bottom: 3px; margin-left: -7px"
-                  size="7px"
-                  :color="container.status === 'Running' ? 'green' : 'grey'"
-                ></v-avatar>
-              </v-row>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title>{{ container.name }}</v-list-item-title>
-              <v-list-item-subtitle class="text-truncate">{{
-                container.description
-              }}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-card-title>
-        <v-card-actions>
-          <v-dialog v-model="configs[index].showDisplay" width="600px">
-            <v-form @submit.prevent="setDescription(index)">
-              <v-card>
-                <v-card-title>Edit {{ container.name }}</v-card-title>
-                <v-card-text>
-                  <v-text-field
-                    v-model="configs[index].description"
-                    label="description"
-                  />
-                </v-card-text>
-                <v-card-actions class="d-flex">
-                  <v-btn type="submit" class="flex-grow-1">apply</v-btn>
-                  <v-btn
-                    class="flex-grow-1"
-                    @click="configs[index].showDisplay = false"
-                    >cancel</v-btn
-                  >
-                </v-card-actions>
-              </v-card>
-            </v-form>
+        :class="selection.class"
+        :color="selection.color"
+        @click="selection.selected = !selection.selected"
+        ><v-img
+          aspect-ratio="1"
+          :lazy-src="`https://res.cloudinary.com/jarautomation/image/upload/c_pad,h_200,w_200/e_blur:1000,q_1,f_auto/${selection.imageSrc}`"
+          :src="`https://res.cloudinary.com/jarautomation/image/upload/c_pad,h_200,w_200,f_auto/${selection.imageSrc}`"
+        ></v-img>
+        <v-overlay
+          style="z-index: 3"
+          class="align-start"
+          color="red"
+          :absolute="true"
+          :value="selection.selected"
+        >
+          <v-icon x-large>mdi-check</v-icon>
+        </v-overlay>
+        <v-overlay
+          style="z-index: 3"
+          class="align-start justify-end"
+          color="transparent"
+          absolute
+        >
+          <v-dialog max-width="800px" scrollable>
+            <f-content-card :doc="docs[selection.name]" />
             <template v-slot:activator="{ on, attrs }">
-              <v-btn block v-bind="attrs" v-on="on">edit</v-btn>
+              <v-btn icon v-bind="attrs" v-on="on"
+                ><v-icon medium color="grey">mdi-information</v-icon></v-btn
+              >
             </template>
           </v-dialog>
-        </v-card-actions>
+        </v-overlay>
       </v-card>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import graphql from '~/graphql'
+import ContentCard from '~/components/ContentCard'
 export default {
-  async asyncData({ app, params }) {
-    const provider = app.apolloProvider
-    const client = provider.defaultClient
-    let error = null
-    const containers = await client
-      .query({
-        query: graphql.query.containers,
-      })
-      .then(({ data: { containers } }) => {
-        return containers
-      })
-      .catch((e) => {
-        error = e
-      })
+  components: {
+    fContentCard: ContentCard,
+  },
+  async asyncData({ $content, params }) {
+    const docs = {}
+    const contentFiles = ['tentacle']
+    for (const file of contentFiles) {
+      docs[file] = await $content(`${file}`)
+        .fetch()
+        .catch((error) => {
+          throw error
+        })
+    }
     return {
-      containers,
-      configs: containers.map(({ description }) => {
-        return {
-          description,
-          showDialog: false,
-        }
-      }),
-      error,
+      docs,
     }
   },
-  methods: {
-    async setDescription(index) {
-      await this.$apollo.mutate({
-        mutation: graphql.mutation.setDescription,
-        variables: {
-          containerName: this.containers[index].name,
-          description: this.configs[index].description,
+
+  data() {
+    return {
+      softwareConfiguration: [
+        {
+          name: 'tentacle',
+          imageSrc: 'v1595057073/logos/tentacle.png',
+          selected: false,
+          color: 'blue-grey darken-4',
+          class: 'pa-2',
         },
-      })
-      await this.$apollo.queries.containers.refetch()
-      this.configs = this.containers.map(({ description }) => {
-        return {
-          description,
-          showDialog: false,
-        }
-      })
-    },
-  },
-  apollo: {
-    containers: {
-      query: graphql.query.containers,
-    },
+        // {
+        //   name: 'node-red',
+        //   imageSrc: 'v1595057580/logos/Node-red-icon.png',
+        //   selected: false,
+        // },
+        // {
+        //   name: 'grafana',
+        //   imageSrc: 'v1595058072/logos/1920px-Grafana_logo.svg.png',
+        //   selected: false,
+        //   class: 'pa-2',
+        // },
+        // {
+        //   name: 'ignition-edge',
+        //   imageSrc: 'v1595058521/logos/IgnitionEdgeLogo_2x.png',
+        //   selected: false,
+        //   color: 'blue-grey darken-2',
+        //   class: 'pa-2',
+        // },
+        // {
+        //   name: 'ignition',
+        //   imageSrc: 'v1595112960/logos/ignitionLogo_2x.png',
+        //   color: 'blue-grey darken-2',
+        //   selected: false,
+        //   class: 'pa-2',
+        // },
+        // {
+        //   name: 'mosquitto',
+        //   imageSrc: 'v1595122011/logos/mosquitto-text-side-28.png',
+        //   selected: false,
+        //   class: 'pl-2 pb-1 pt-1',
+        // },
+        // {
+        //   name: 'postgresql',
+        //   imageSrc: 'v1595115531/logos/postgresql.png',
+        //   selected: false,
+        //   class: 'pa-2',
+        // },
+        // {
+        //   name: 'influxdb',
+        //   imageSrc: 'v1595120189/logos/influxdata.png',
+        //   selected: false,
+        //   class: 'pa-2',
+        // },
+      ],
+    }
   },
 }
 </script>

@@ -1,5 +1,13 @@
 import gql from 'graphql-tag'
 
+const device = gql`
+  fragment DeviceBasic on Device {
+    id
+    name
+    type
+  }
+`
+
 const config = gql`
   fragment ConfigBasic on Config {
     securityNesting
@@ -14,8 +22,12 @@ const profile = gql`
     config {
       ...ConfigBasic
     }
+    devices {
+      ...DeviceBasic
+    }
   }
   ${config}
+  ${device}
 `
 
 const container = gql`
