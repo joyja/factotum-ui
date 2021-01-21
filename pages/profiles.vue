@@ -132,15 +132,23 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
-      <v-dialog width="1000px" scrollable>
+    <v-row class="mx-0">
+      <v-dialog v-model="showCreateProfileDialog" width="1000px" scrollable>
         <v-form>
           <v-card>
             <v-card-title>Create Profile</v-card-title>
-            <v-card-text><v-textarea label="yaml" /></v-card-text>
+            <v-card-text
+              ><v-textarea label="yaml" :rules="yamlRules"
+            /></v-card-text>
             <v-card-actions class="d-flex"
-              ><v-btn class="flex-grow-1">create</v-btn
-              ><v-btn class="flex-grow-1">cancel</v-btn></v-card-actions
+              ><v-btn color="primary" class="flex-grow-1"
+                ><v-icon left>mdi-plus</v-icon>create</v-btn
+              ><v-btn
+                color="primary"
+                class="flex-grow-1"
+                @click="showCreateProfileDialog = false"
+                ><v-icon left>mdi-cancel</v-icon>cancel</v-btn
+              ></v-card-actions
             >
           </v-card>
         </v-form>
@@ -184,7 +192,21 @@ export default {
       error,
     }
   },
+  data() {
+    return {
+      showCreateProfileDialog: false,
+      yamlRules: [
+        (v) => {
+          return this.isYamlValid(v) || 'Must bein a valid yaml format.'
+        },
+      ],
+    }
+  },
   methods: {
+    isYamlValid(text) {
+      yaml.safeLoad(text)
+      return true
+    },
     async setDescription(index) {
       await this.$apollo.mutate({
         mutation: graphql.mutation.setDescription,

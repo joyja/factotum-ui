@@ -3,14 +3,14 @@
     <v-col
       v-for="(selection, i) in softwareConfiguration"
       :key="i"
-      :offset-sm="0"
-      :offset-md="[0, 4].includes(i) ? 2 : 0"
-      :offset-xl="[0, 4].includes(i) ? 4 : 0"
-      :offset="[0, 4].includes(i) ? 0 : 0"
-      sm="3"
+      :offset-sm="5"
+      :offset-md="[0, 4].includes(i) ? 5 : 0"
+      :offset-xl="[0, 4].includes(i) ? 5 : 0"
+      :offset="[0, 4].includes(i) ? 4 : 0"
+      sm="2"
       md="2"
-      xl="1"
-      cols="6"
+      xl="2"
+      cols="4"
     >
       <v-card
         :class="selection.class"
