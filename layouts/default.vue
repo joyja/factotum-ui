@@ -80,7 +80,7 @@ export default {
         {
           icon: 'mdi-network',
           title: 'Networking',
-          // to: '/inspire',
+          to: '/network',
         },
       ],
       miniVariant: false,
