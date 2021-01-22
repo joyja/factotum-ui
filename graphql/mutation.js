@@ -10,6 +10,26 @@ const setDescription = gql`
   ${fragment.container}
 `
 
+const setInterfaceConfig = gql`
+  mutation setInterfaceConfig(
+    $name: String!
+    $dhcp: Boolean!
+    $addresses: [String!]!
+    $gateway: String
+  ) {
+    setInterfaceConfig(
+      name: $name
+      dhcp: $dhcp
+      addresses: $addresses
+      gateway: $gateway
+    ) {
+      ...NetworkInterfaceBasic
+    }
+  }
+  ${fragment.networkInterface}
+`
+
 export default {
   setDescription,
+  setInterfaceConfig,
 }
