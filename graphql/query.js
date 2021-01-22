@@ -19,7 +19,27 @@ const containers = gql`
   ${fragment.container}
 `
 
+const networkInterfaceConfigs = gql`
+  query NetworkInterfaceConfigs {
+    networkInterfaceConfigs {
+      ...NetworkInterfaceConfigBasic
+    }
+  }
+  ${fragment.networkInterfaceConfig}
+`
+
+const networkInterfaces = gql`
+  query NetworkInterfaces {
+    networkInterfaces {
+      ...NetworkInterfaceBasic
+    }
+  }
+  ${fragment.networkInterface}
+`
+
 export default {
   containers,
   profiles,
+  networkInterfaceConfigs,
+  networkInterfaces,
 }
