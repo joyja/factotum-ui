@@ -1,14 +1,16 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  factotumServerSecure: process.env.FACTOTUM_SERVER_SECURE || false,
-  factotumServerHost: process.env.FACTOTUM_SERVER_HOST,
-  factotumServerPort: process.env.FACTOTUM_SERVER_PORT || 4000,
-  factotumServerUrl: process.env.FACTOTUM_SERVER_URL,
-  factotumClientSecure: process.env.FACTOTUM_CLIENT_SECURE || false,
-  factotumClientHost: process.env.FACTOTUM_CLIENT_HOST,
-  factotumClientPort: process.env.FACTOTUM_CLIENT_PORT,
-  factotumClientUrl: process.env.FACTOTUM_CLIENT_URL,
+  env: {
+    factotumServerSecure: process.env.FACTOTUM_SERVER_SECURE || false,
+    factotumServerHost: process.env.FACTOTUM_SERVER_HOST,
+    factotumServerPort: process.env.FACTOTUM_SERVER_PORT || 4000,
+    factotumServerUrl: process.env.FACTOTUM_SERVER_URL,
+    factotumClientSecure: process.env.FACTOTUM_CLIENT_SECURE || false,
+    factotumClientHost: process.env.FACTOTUM_CLIENT_HOST,
+    factotumClientPort: process.env.FACTOTUM_CLIENT_PORT,
+    factotumClientUrl: process.env.FACTOTUM_CLIENT_URL,
+  },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s - factotum-ui',

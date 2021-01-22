@@ -4,9 +4,9 @@
       <v-card class="pt-5" color="blue-grey lighten-5">
         <v-img
           class="mx-5"
-          aspect-ratio="4.3"
-          lazy-src="/gnat-hardware.png"
-          src="/gnat-hardware.png"
+          aspect-ratio="2.27"
+          lazy-src="fitlet2.png"
+          src="fitlet2.png"
         >
           <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
