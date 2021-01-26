@@ -141,6 +141,7 @@ export default {
   apollo: {
     containers: {
       query: graphql.query.containers,
+      pollInterval: 5000,
     },
   },
 }
