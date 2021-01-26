@@ -32,9 +32,17 @@
               </v-list-item-content>
             </v-list-item>
           </v-card-title>
-          <v-list color="blue-grey lighten-3">
-            <v-list-item v-if="profile.config.userUserData">
-              <v-list-item-content>User Data</v-list-item-content>
+          <v-list
+            v-if="profile.config.userUserData"
+            color="blue-grey lighten-3"
+            dense
+          >
+            <v-list-item>
+              <v-list-item-content
+                ><v-list-item-title
+                  >User Data</v-list-item-title
+                ></v-list-item-content
+              >
               <v-list-item-action>
                 <v-dialog width="1000px" scrollable>
                   <v-card>
@@ -45,7 +53,7 @@
                       profile.config.userUserData
                     }}</v-card-text>
                   </v-card>
-                  <template v-slot:activator="{ on, attr }">
+                  <template #activator="{ on, attr }">
                     <v-btn
                       color="blue-grey"
                       elevation="0"
@@ -61,46 +69,26 @@
               </v-list-item-action>
             </v-list-item>
           </v-list>
-          <v-card-text>
-            <v-card
-              v-if="profile.devices && profile.devices.length > 0"
-              flat
-              color="blue-grey lighten-4"
-              dense
-            >
+          <v-card-text v-if="profile.devices && profile.devices.length > 0">
+            <v-card flat color="blue-grey lighten-4" dense>
               <v-card-title><div class="subtitle-2">Devices</div></v-card-title>
-              <v-expansion-panels style="background-color: #b0bec5">
-                <v-expansion-panel
-                  v-for="device in profile.devices"
-                  :key="device.id"
-                >
-                  <v-expansion-panel-header
-                    ><v-avatar class="flex-grow-0 flex-shrinkt-0"
-                      ><v-icon>{{
-                        getDeviceIcon(device.type)
-                      }}</v-icon></v-avatar
-                    >{{ device.id }}</v-expansion-panel-header
+              <v-list>
+                <v-list-item v-for="device in profile.devices" :key="device.id">
+                  <v-list-item-avatar class="flex-grow-0 flex-shrinkt-0"
+                    ><v-icon>{{
+                      getDeviceIcon(device.type)
+                    }}</v-icon></v-list-item-avatar
                   >
-                  <v-expansion-panel-content class="ml-5">
-                    <v-row v-if="device.name">
-                      <v-col cols="1" lg="2">
-                        <strong>Name:</strong>
-                      </v-col>
-                      <v-col cols="11" lg="10">
-                        {{ device.name }}
-                      </v-col>
-                    </v-row>
-                    <v-row v-if="device.type">
-                      <v-col cols="1" lg="2">
-                        <strong>Type:</strong>
-                      </v-col>
-                      <v-col cols="11" lg="10">
-                        {{ device.type }}
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      {{ device.id }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                      {{ device.type }}
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
             </v-card>
           </v-card-text>
           <!-- <v-card-actions>
@@ -152,7 +140,7 @@
             >
           </v-card>
         </v-form>
-        <template v-slot:activator="{ on, attrs }">
+        <template #activator="{ on, attrs }">
           <v-btn v-bind="attrs" color="primary" block v-on="on"
             ><v-icon left>mdi-plus</v-icon>Create Profile</v-btn
           >

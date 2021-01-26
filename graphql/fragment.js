@@ -34,6 +34,24 @@ const container = gql`
   fragment ContainerBasic on Container {
     name
     status
+    network {
+      name
+      addresses {
+        family
+        address
+        netmask
+        scope
+      }
+      bytes_received
+      bytes_sent
+      packets_received
+      packets_sent
+      macAddress
+      host_name
+      mtu
+      state
+      type
+    }
     status_code
     architecture
     ephemeral

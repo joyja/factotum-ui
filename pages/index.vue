@@ -18,8 +18,8 @@
         @click="selection.selected = !selection.selected"
         ><v-img
           aspect-ratio="1"
-          :lazy-src="`https://res.cloudinary.com/jarautomation/image/upload/c_pad,h_200,w_200/e_blur:1000,q_1,f_auto/${selection.imageSrc}`"
-          :src="`https://res.cloudinary.com/jarautomation/image/upload/c_pad,h_200,w_200,f_auto/${selection.imageSrc}`"
+          :lazy-src="`${selection.imageLazySrc}`"
+          :src="`${selection.imageSrc}`"
         ></v-img>
         <v-overlay
           style="z-index: 3"
@@ -38,7 +38,7 @@
         >
           <v-dialog max-width="800px" scrollable>
             <f-content-card :doc="docs[selection.name]" />
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on"
                 ><v-icon medium color="grey">mdi-information</v-icon></v-btn
               >
@@ -76,7 +76,8 @@ export default {
       softwareConfiguration: [
         {
           name: 'tentacle',
-          imageSrc: 'v1595057073/logos/tentacle.png',
+          imageSrc: 'tentacle.png',
+          imageLazySrc: 'tentacle_blur.png',
           selected: false,
           color: 'blue-grey darken-4',
           class: 'pa-2',

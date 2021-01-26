@@ -8,7 +8,7 @@
           lazy-src="fitlet2.png"
           src="fitlet2.png"
         >
-          <template v-slot:placeholder>
+          <template #placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
               <v-progress-circular
                 indeterminate
@@ -207,7 +207,7 @@
                     </v-card-actions>
                   </v-card>
                 </v-form>
-                <template v-slot:activator="{ on, attrs }">
+                <template #activator="{ on, attrs }">
                   <v-btn v-bind="attrs" color="primary" block v-on="on"
                     ><v-icon left>mdi-pencil</v-icon>edit</v-btn
                   >

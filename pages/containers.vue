@@ -36,6 +36,31 @@
             </v-list-item-content>
           </v-list-item>
         </v-card-title>
+        <v-card-text>
+          <v-card color="blue-grey lighten-4" flat>
+            <v-card-title primary-title
+              ><span class="text-subtitle-1">networking</span></v-card-title
+            >
+            <v-list color="blue-grey lighten-5" dense>
+              <v-list-item
+                v-for="(network, networkIndex) in container.network"
+                :key="networkIndex"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ network.addresses[0].address }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{ network.name
+                    }}{{
+                      network.host_name ? ` (parent: ${network.host_name})` : ''
+                    }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-card-text>
         <v-card-actions>
           <v-dialog v-model="configs[index].showDisplay" width="600px">
             <v-form @submit.prevent="setDescription(index)">
@@ -57,7 +82,7 @@
                 </v-card-actions>
               </v-card>
             </v-form>
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-btn block v-bind="attrs" v-on="on">edit</v-btn>
             </template>
           </v-dialog>
