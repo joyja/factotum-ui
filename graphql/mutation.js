@@ -10,6 +10,33 @@ const setDescription = gql`
   ${fragment.container}
 `
 
+const startContainer = gql`
+  mutation StartContainer($containerName: String!) {
+    startContainer(containerName: $containerName) {
+      ...ContainerBasic
+    }
+  }
+  ${fragment.container}
+`
+
+const stopContainer = gql`
+  mutation StopContainer($containerName: String!) {
+    stopContainer(containerName: $containerName) {
+      ...ContainerBasic
+    }
+  }
+  ${fragment.container}
+`
+
+const restartContainer = gql`
+  mutation RetartContainer($containerName: String!) {
+    restartContainer(containerName: $containerName) {
+      ...ContainerBasic
+    }
+  }
+  ${fragment.container}
+`
+
 const setInterfaceConfig = gql`
   mutation setInterfaceConfig(
     $name: String!
@@ -31,5 +58,8 @@ const setInterfaceConfig = gql`
 
 export default {
   setDescription,
+  startContainer,
+  stopContainer,
+  restartContainer,
   setInterfaceConfig,
 }

@@ -52,6 +52,9 @@ const container = gql`
       state
       type
     }
+    profiles {
+      name
+    }
     status_code
     architecture
     ephemeral
