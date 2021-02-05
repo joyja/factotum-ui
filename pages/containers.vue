@@ -54,6 +54,14 @@
               <v-card-title primary-title
                 ><span class="text-subtitle-1">networking</span></v-card-title
               >
+              <v-row
+                v-if="container.network.length < 1"
+                class="d-flex flex-column blue-grey lighten-5"
+                no-gutters
+              >
+                <v-progress-linear :indeterminate="true"></v-progress-linear>
+                <div class="text-center">Configuring...</div>
+              </v-row>
               <v-list color="blue-grey lighten-5" dense>
                 <v-list-item
                   v-for="(network, networkIndex) in container.network"
@@ -75,41 +83,74 @@
                 </v-list-item>
               </v-list>
             </v-card>
+            <v-row
+              v-if="!container.cloudInitComplete"
+              class="d-flex flex-column"
+              no-gutters
+            >
+              <v-progress-linear :indeterminate="true"></v-progress-linear>
+              <div class="text-center">Creating...</div>
+            </v-row>
           </v-card-text>
         </v-expand-transition>
         <v-card-actions class="justify-space-between">
-          <v-dialog v-model="configs[index].showDisplay" width="600px">
-            <v-form @submit.prevent="setDescription(index)">
-              <v-card>
-                <v-card-title>Edit {{ container.name }}</v-card-title>
-                <v-card-text>
-                  <v-text-field
-                    v-model="configs[index].description"
-                    label="description"
-                  />
-                </v-card-text>
-                <v-card-actions class="d-flex">
-                  <v-btn type="submit" class="flex-grow-1">apply</v-btn>
-                  <v-btn
-                    class="flex-grow-1"
-                    @click="configs[index].showDisplay = false"
-                    >cancel</v-btn
+          <div>
+            <v-dialog v-model="configs[index].showDialog" width="600px">
+              <v-form @submit.prevent="setDescription(index)">
+                <v-card>
+                  <v-card-title>Edit {{ container.name }}</v-card-title>
+                  <v-card-text>
+                    <v-text-field
+                      v-model="configs[index].description"
+                      label="description"
+                    />
+                  </v-card-text>
+                  <v-card-actions class="d-flex">
+                    <v-btn type="submit" class="flex-grow-1">apply</v-btn>
+                    <v-btn
+                      class="flex-grow-1"
+                      @click="configs[index].showDialog = false"
+                      >cancel</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-form>
+              <template #activator="{ on, attrs }">
+                <v-btn v-bind="attrs" v-on="on">edit</v-btn>
+              </template>
+            </v-dialog>
+            <v-dialog v-model="configs[index].showDeleteDialog" width="600px">
+              <v-form @submit.prevent="deleteContainer(container.name)">
+                <v-card color="blue-grey lighten-3">
+                  <v-card-text
+                    >Are you sure you want to delete {{ container.name }}? This
+                    action cannot be undone.</v-card-text
                   >
-                </v-card-actions>
-              </v-card>
-            </v-form>
-            <template #activator="{ on, attrs }">
-              <v-btn v-bind="attrs" v-on="on">edit</v-btn>
-            </template>
-          </v-dialog>
+                  <v-card-actions class="d-flex">
+                    <v-btn
+                      color="warning"
+                      type="submit"
+                      class="flex-grow-1"
+                      @click="configs[index].showDeleteDialog = false"
+                      >delete</v-btn
+                    >
+                    <v-btn
+                      class="flex-grow-1"
+                      @click="configs[index].showDeleteDialog = false"
+                      >cancel</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-form>
+              <template #activator="{ on, attrs }">
+                <v-btn v-bind="attrs" v-on="on">delete</v-btn>
+              </template>
+            </v-dialog>
+          </div>
           <div>
             <v-slide-x-reverse-transition>
               <v-progress-circular
-                v-if="
-                  operationsInProgress.some(
-                    (o) => o.containerName === container.name
-                  )
-                "
+                v-if="operationsInProgress[container.name]"
                 indeterminate
               ></v-progress-circular>
             </v-slide-x-reverse-transition>
@@ -161,20 +202,21 @@ export default {
       .catch((e) => {
         error = e
       })
+    const operationsInProgress = {}
+    containers.forEach((container) => {
+      operationsInProgress[container.name] = false
+    })
     return {
       containers,
+      operationsInProgress,
       configs: containers.map(({ description }) => {
         return {
           description,
           showDialog: false,
+          showDeleteDialog: false,
         }
       }),
       error,
-    }
-  },
-  data() {
-    return {
-      operationsInProgress: [],
     }
   },
   methods: {
@@ -191,64 +233,55 @@ export default {
         return {
           description,
           showDialog: false,
+          showDeleteDialog: false,
         }
       })
     },
-    restartContainer(containerName) {
-      this.$apollo.mutate({
+    async restartContainer(containerName) {
+      this.operationsInProgress[containerName] = true
+      await this.$apollo.mutate({
         mutation: graphql.mutation.restartContainer,
         variables: {
           containerName,
         },
       })
+      this.operationsInProgress[containerName] = false
     },
-    startContainer(containerName) {
-      this.operationsInProgress.push({ containerName, action: 'start' })
-      this.$apollo.mutate({
+    async startContainer(containerName) {
+      this.operationsInProgress[containerName] = true
+      await this.$apollo.mutate({
         mutation: graphql.mutation.startContainer,
         variables: {
           containerName,
         },
       })
+      this.operationsInProgress[containerName] = false
     },
-    stopContainer(containerName) {
-      this.operationsInProgress.push({ containerName, action: 'stop' })
-      this.$apollo.mutate({
+    async stopContainer(containerName) {
+      this.operationsInProgress[containerName] = true
+      await this.$apollo.mutate({
         mutation: graphql.mutation.stopContainer,
         variables: {
           containerName,
         },
       })
+      this.operationsInProgress[containerName] = false
+    },
+    async deleteContainer(containerName) {
+      this.operationsInProgress[containerName] = true
+      await this.$apollo.mutate({
+        mutation: graphql.mutation.deleteContainer,
+        variables: {
+          containerName,
+        },
+      })
+      this.operationsInPrgress[containerName] = false
     },
   },
   apollo: {
     containers: {
       query: graphql.query.containers,
-      pollInterval: 5000,
-      result({ data }) {
-        if (data.containers) {
-          const updatedOperationsInProgress = []
-          data.containers.forEach((container) => {
-            this.operationsInProgress.forEach((operation) => {
-              if (container.name === operation.containerName) {
-                if (
-                  operation.action === 'stop' &&
-                  container.status !== 'Stopped'
-                ) {
-                  updatedOperationsInProgress.push(operation)
-                }
-                if (
-                  operation.action === 'start' &&
-                  container.status !== 'Running'
-                ) {
-                  updatedOperationsInProgress.push(operation)
-                }
-              }
-            })
-          })
-          this.operationsInProgress = updatedOperationsInProgress
-        }
-      },
+      pollInterval: 2500,
     },
   },
 }

@@ -10,6 +10,24 @@ const setDescription = gql`
   ${fragment.container}
 `
 
+const createContainer = gql`
+  mutation CreateContainer($containerName: String!, $profile: String!) {
+    createContainer(containerName: $containerName, profile: $profile) {
+      ...ContainerBasic
+    }
+  }
+  ${fragment.container}
+`
+
+const deleteContainer = gql`
+  mutation DeleteContainer($containerName: String!) {
+    deleteContainer(containerName: $containerName) {
+      ...ContainerBasic
+    }
+  }
+  ${fragment.container}
+`
+
 const startContainer = gql`
   mutation StartContainer($containerName: String!) {
     startContainer(containerName: $containerName) {
@@ -58,6 +76,8 @@ const setInterfaceConfig = gql`
 
 export default {
   setDescription,
+  createContainer,
+  deleteContainer,
   startContainer,
   stopContainer,
   restartContainer,

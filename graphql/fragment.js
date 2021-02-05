@@ -64,6 +64,7 @@ const container = gql`
     last_used_at
     location
     type
+    cloudInitComplete
   }
 `
 
