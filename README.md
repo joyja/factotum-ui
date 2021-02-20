@@ -1,4 +1,4 @@
-# factotum-ui
+# squid-ui
 
 ## Build Setup
 
