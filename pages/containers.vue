@@ -19,14 +19,31 @@
             <v-list-item-avatar horizontal rounded="0">
               <v-row align="end" no-gutters>
                 <v-avatar
-                  v-if="container.profiles.some((p) => p.name === 'tentacle')"
+                  v-if="
+                    [
+                      'grafana',
+                      'ignition',
+                      'codesys',
+                      'mosquitto',
+                      'nginx',
+                      'node-red',
+                      'postgres',
+                      'tentacle',
+                    ].some((a) => a === container.application)
+                  "
                   size="36px"
-                  color="blue-grey darken-4"
+                  :color="
+                    ['ignition', 'tentacle'].some(
+                      (a) => a === container.application
+                    )
+                      ? 'blue-grey darken-4'
+                      : 'blue-grey lighten-4'
+                  "
                 >
                   <v-img
                     aspect-ratio="1"
-                    :lazy-src="`tentacle_blur.png`"
-                    :src="`tentacle.png`"
+                    :lazy-src="`${container.application}_blur.png`"
+                    :src="`${container.application}.png`"
                     color="blue-grey darken-4"
                   ></v-img>
                 </v-avatar>
@@ -275,7 +292,7 @@ export default {
           containerName,
         },
       })
-      this.operationsInPrgress[containerName] = false
+      this.operationsInProgress[containerName] = false
     },
   },
   apollo: {

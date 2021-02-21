@@ -1,24 +1,24 @@
 <template>
-  <div>
+  <v-container>
     <v-row>
       <v-col
         v-for="(selection, i) in softwareConfiguration"
         :key="i"
-        :offset-sm="5"
-        :offset-md="[0, 4].includes(i) ? 5 : 0"
-        :offset-xl="[0, 4].includes(i) ? 5 : 0"
-        :offset="[0, 4].includes(i) ? 4 : 0"
-        sm="2"
+        :offset-sm="0"
+        :offset-md="[0, 4].includes(i) ? 2 : 0"
+        :offset-xl="[0, 4].includes(i) ? 4 : 0"
+        :offset="[0, 4].includes(i) ? 0 : 0"
+        sm="3"
         md="2"
-        xl="2"
-        cols="4"
+        xl="1"
+        cols="6"
       >
         <v-card
           :class="selection.class"
           :color="selection.color"
           @click="
             showCreateDialog = true
-            createDialog.application = 'tentacle'
+            createDialog.application = selection.name
           "
           ><v-img
             aspect-ratio="1"
@@ -82,7 +82,7 @@
         </v-card>
       </v-form>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -94,7 +94,16 @@ export default {
   },
   async asyncData({ $content, params }) {
     const docs = {}
-    const contentFiles = ['tentacle']
+    const contentFiles = [
+      'grafana',
+      'ignition',
+      'codesys',
+      'mosquitto',
+      'nginx',
+      'node-red',
+      'postgres',
+      'tentacle',
+    ]
     for (const file of contentFiles) {
       docs[file] = await $content(`${file}`)
         .fetch()
@@ -126,49 +135,48 @@ export default {
           color: 'blue-grey darken-4',
           class: 'pa-2',
         },
-        // {
-        //   name: 'node-red',
-        //   imageSrc: 'v1595057580/logos/Node-red-icon.png',
-        //   selected: false,
-        // },
-        // {
-        //   name: 'grafana',
-        //   imageSrc: 'v1595058072/logos/1920px-Grafana_logo.svg.png',
-        //   selected: false,
-        //   class: 'pa-2',
-        // },
-        // {
-        //   name: 'ignition-edge',
-        //   imageSrc: 'v1595058521/logos/IgnitionEdgeLogo_2x.png',
-        //   selected: false,
-        //   color: 'blue-grey darken-2',
-        //   class: 'pa-2',
-        // },
-        // {
-        //   name: 'ignition',
-        //   imageSrc: 'v1595112960/logos/ignitionLogo_2x.png',
-        //   color: 'blue-grey darken-2',
-        //   selected: false,
-        //   class: 'pa-2',
-        // },
-        // {
-        //   name: 'mosquitto',
-        //   imageSrc: 'v1595122011/logos/mosquitto-text-side-28.png',
-        //   selected: false,
-        //   class: 'pl-2 pb-1 pt-1',
-        // },
-        // {
-        //   name: 'postgresql',
-        //   imageSrc: 'v1595115531/logos/postgresql.png',
-        //   selected: false,
-        //   class: 'pa-2',
-        // },
-        // {
-        //   name: 'influxdb',
-        //   imageSrc: 'v1595120189/logos/influxdata.png',
-        //   selected: false,
-        //   class: 'pa-2',
-        // },
+        {
+          name: 'node-red',
+          imageSrc: 'node-red.png',
+          imageLazySrc: 'node-red_blur.png',
+          selected: false,
+        },
+        {
+          name: 'grafana',
+          imageSrc: 'grafana.png',
+          imageLazySrc: 'grafana_blur.png',
+          selected: false,
+          class: 'pa-2',
+        },
+        {
+          name: 'ignition',
+          imageSrc: 'ignition.png',
+          imageLazySrc: 'ignition_blur.png',
+          color: 'blue-grey darken-2',
+          selected: false,
+          class: 'pa-2',
+        },
+        {
+          name: 'mosquitto',
+          imageSrc: 'mosquitto.png',
+          imageLazySrc: 'mosquitto_blur.png',
+          selected: false,
+          class: 'pl-2 pb-1 pt-1',
+        },
+        {
+          name: 'postgres',
+          imageSrc: 'postgres.png',
+          imageLazySrc: 'postgres_blur.png',
+          selected: false,
+          class: 'pa-2',
+        },
+        {
+          name: 'codesys',
+          imageSrc: 'codesys.png',
+          imageLazySrc: 'codesys_blur.png',
+          selected: false,
+          class: 'pa-2',
+        },
       ],
     }
   },

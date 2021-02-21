@@ -65,6 +65,7 @@ const container = gql`
     location
     type
     cloudInitComplete
+    application
   }
 `
 
