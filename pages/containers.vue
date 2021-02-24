@@ -70,7 +70,10 @@
           </v-list-item>
         </v-card-title>
         <v-expand-transition>
-          <v-card-text v-if="container.status === 'Running'">
+          <v-card-text
+            v-if="container.status === 'Running'"
+            class="flex-grow-1"
+          >
             <v-card color="blue-grey lighten-4" flat>
               <v-card-title primary-title
                 ><span class="text-subtitle-1">networking</span></v-card-title
@@ -90,7 +93,23 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title>
-                      {{ network.addresses[0].address }}
+                      <a
+                        v-if="
+                          [
+                            'tentacle',
+                            'node-red',
+                            'ignition',
+                            'grafana',
+                          ].includes(container.application) &&
+                          network.name == 'eth1'
+                        "
+                        :href="`http://${
+                          network.addresses[0].address
+                        }:${getPort(container.application)}`"
+                        target="_blank"
+                        >{{ network.addresses[0].address }}
+                      </a>
+                      <span v-else>{{ network.addresses[0].address }}</span>
                     </v-list-item-title>
                     <v-list-item-subtitle>
                       {{ network.name
@@ -209,7 +228,7 @@
 <script>
 import graphql from '~/graphql'
 export default {
-  middlware: 'auth',
+  middleware: 'auth',
   async asyncData({ app, params }) {
     const provider = app.apolloProvider
     const client = provider.defaultClient
@@ -242,6 +261,17 @@ export default {
     }
   },
   methods: {
+    getPort(application) {
+      if (application === 'ignition') {
+        return 8088
+      } else if (application === 'node-red') {
+        return 1880
+      } else if (application === 'grafana') {
+        return 3000
+      } else {
+        return 80
+      }
+    },
     async setDescription(index) {
       await this.$apollo.mutate({
         mutation: graphql.mutation.setDescription,
