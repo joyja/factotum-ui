@@ -1,5 +1,9 @@
 <template>
   <v-row>
+    <v-col v-if="containers.length < 1">
+      You have no containers. Create a new one
+      <nuxt-link :to="{ name: 'index' }">here</nuxt-link>!
+    </v-col>
     <v-col
       v-for="(container, index) in containers"
       :key="container.name"
@@ -205,6 +209,7 @@
 <script>
 import graphql from '~/graphql'
 export default {
+  middlware: 'auth',
   async asyncData({ app, params }) {
     const provider = app.apolloProvider
     const client = provider.defaultClient

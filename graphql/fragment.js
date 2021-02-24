@@ -1,5 +1,12 @@
 import gql from 'graphql-tag'
 
+const user = gql`
+  fragment UserBasic on User {
+    id
+    username
+  }
+`
+
 const device = gql`
   fragment DeviceBasic on Device {
     id
@@ -91,6 +98,7 @@ const networkInterface = gql`
 `
 
 export default {
+  user,
   container,
   config,
   profile,

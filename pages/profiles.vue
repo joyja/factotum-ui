@@ -155,6 +155,7 @@ import yaml from 'js-yaml'
 import graphql from '~/graphql'
 
 export default {
+  middleware: 'auth',
   async asyncData({ app, params }) {
     const provider = app.apolloProvider
     const client = provider.defaultClient

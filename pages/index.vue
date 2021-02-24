@@ -92,6 +92,7 @@ export default {
   components: {
     fContentCard: ContentCard,
   },
+  middleware: 'auth',
   async asyncData({ $content, params }) {
     const docs = {}
     const contentFiles = [
@@ -115,7 +116,6 @@ export default {
       docs,
     }
   },
-
   data() {
     return {
       showCreateDialog: false,

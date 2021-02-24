@@ -1,6 +1,15 @@
 import gql from 'graphql-tag'
 import fragment from './fragment'
 
+const user = gql`
+  query User {
+    user {
+      id
+      username
+    }
+  }
+`
+
 const profiles = gql`
   query Profiles {
     profiles {
@@ -38,6 +47,7 @@ const networkInterfaces = gql`
 `
 
 export default {
+  user,
   containers,
   profiles,
   networkInterfaceConfigs,

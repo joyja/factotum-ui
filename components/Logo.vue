@@ -1,79 +1,193 @@
 <template>
-  <div class="VueToNuxtLogo">
-    <div class="Triangle Triangle--two" />
-    <div class="Triangle Triangle--one" />
-    <div class="Triangle Triangle--three" />
-    <div class="Triangle Triangle--four" />
-  </div>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 68.23149 66.92685"
+    :height="height"
+  >
+    <defs>
+      <filter
+        id="c"
+        x="-.0276"
+        width="1.0552"
+        y="-.0077"
+        height="1.0153"
+        color-interpolation-filters="sRGB"
+      >
+        <feGaussianBlur stdDeviation=".1241" />
+      </filter>
+      <filter
+        id="b"
+        x="-.0168"
+        width="1.0335"
+        y="-.0093"
+        height="1.0187"
+        color-interpolation-filters="sRGB"
+      >
+        <feGaussianBlur stdDeviation=".143" />
+      </filter>
+      <filter
+        id="a"
+        x="-.0523"
+        width="1.1046"
+        y="-.0182"
+        height="1.0364"
+        color-interpolation-filters="sRGB"
+      >
+        <feGaussianBlur stdDeviation=".2784" />
+      </filter>
+    </defs>
+    <g transform="translate(-122.6133 -81.5821)">
+      <path
+        d="M154.5565 103.4475s-4.6705 10.3716-5.4417 16.2775c-.5366 4.1097.1702 8.6324.6068 13.0258.2378 2.3928 1.0946 7.2445 1.0946 7.2445l2.6456.1763s.1324-9.6967 1.058-14.2076c.865-4.2157 2.451-8.1033 4.1706-11.8668.845-1.8492 3.0078-5.2372 3.0078-5.2372z"
+        :fill="squidBackgroundColor"
+        :stroke="squidBackgroundStrokeColor"
+        filter="url(#a)"
+      />
+      <path
+        transform="matrix(1 .55192 -.14112 .92211 13.3931 -80.4877)"
+        d="M152.16 101.083s-7.8708 10.3716-10.4644 16.2776c-1.8048 4.1096-3.0754 8.7595-3.4127 13.0257-.9089 11.498 1.2445 19.1651 1.2445 19.1651l2.9497 1.5217s.3808-22.9626 2.6983-27.4735c2.1659-4.2157 4.9515-8.1034 7.8324-11.8668 1.4155-1.8492 4.6238-5.2373 4.6238-5.2373z"
+        :fill="squidBackgroundColor"
+        :stroke="squidBackgroundStrokeColor"
+        filter="url(#b)"
+      />
+      <path
+        d="M161.343 103.754s.5808 12.9835-.6428 19.351c-.8515 4.4307-2.8564 8.602-4.5982 12.7899-.9487 2.2808-3.1807 6.702-3.1807 6.702l-2.2331-1.2597s2.9422-9.8384 3.5997-14.8846c.6146-4.716.5324-9.4933.3012-14.218-.1136-2.3215-.8278-6.909-.8278-6.909z"
+        style="mix-blend-mode: normal"
+        :fill="squidBackgroundColor"
+        :stroke="squidBackgroundStrokeColor"
+        filter="url(#c)"
+      />
+      <path
+        d="M150.5565 103.4475s-4.6705 10.3716-5.4417 16.2775c-.5366 4.1097.1702 8.6324.6068 13.0258.2378 2.3928 1.0946 7.2445 1.0946 7.2445l2.6456.1763s.1324-9.6967 1.058-14.2076c.865-4.2157 2.451-8.1033 4.1706-11.8668.845-1.8492 3.0078-5.2372 3.0078-5.2372z"
+        :fill="squidBackgroundColor"
+        :stroke="squidBackgroundStrokeColor"
+        filter="url(#a)"
+      />
+      <path
+        style="mix-blend-mode: normal"
+        d="M164.3341 103.9905s4.1989 12.9835 4.7496 19.3509c.3833 4.4308-.4592 8.6021-1.034 12.79-.3131 2.2808-1.313 6.702-1.313 6.702l-2.5842-1.2597s.2005-9.8384-.5481-14.8846c-.6997-4.716-2.1132-9.4933-3.661-14.218-.7605-2.3215-2.753-6.909-2.753-6.909z"
+        :fill="squidBackgroundColor"
+        :stroke="squidBackgroundStrokeColor"
+      />
+      <path
+        d="M149.5688 100.9068s-7.8709 10.3716-10.4645 16.2775c-1.8047 4.1097-2.4936 8.6324-3.4126 13.0258-.5006 2.3928-1.1409 7.2445-1.1409 7.2445l2.5913.1763s3.1245-9.6967 5.442-14.2076c2.1659-4.2157 4.9516-8.1033 7.8324-11.8668 1.4155-1.8492 4.6239-5.2372 4.6239-5.2372z"
+        :fill="squidBackgroundColor"
+        :stroke="squidBackgroundStrokeColor"
+        filter="url(#b)"
+      />
+      <path
+        d="M143.902 144.7636h9.8593v-9.8595h-9.8594M129.1127 129.9744h9.8595v-9.8595h-9.8595M158.6911 115.1852h9.8594v-9.8595h-9.8594M143.902 115.1852h9.8593v-9.8595h-9.8594M158.6911 129.9744h9.8594v-9.8595h-9.8594M158.6911 144.7636h9.8594v-9.8595h-9.8594"
+        :fill="color"
+      />
+      <path
+        d="M152.5565 103.4475c-2.0795.767-4.2969 1.0062-6.463.7457-.7967-.0958-2.0682-.3871-2.8365-.6193-5.0178-1.5166-8.9528-4.5369-12.6183-1.3268-.4845.4243-1.1702 1.2216-1.5163 1.7646-2.5423 3.988-1.395 9.889 4.7876 9.1532 1.0956-.1304 2.8648-.672 3.656-1.428.7317-.699 1.295-2.4404.915-3.451-.561-1.4917-1.9484-3.3-3.4508-5.0981-.7082-.8476-.4943-1.1166.4315-.5149 6.0935 3.9604 6.429 8.9347 3.3408 11.6944-.821.7337-2.4685 1.5156-3.54 1.7747-.6396.1547-2.0652.3512-3.1675.306-7.197-.2954-10.9557-7.5508-7.9291-14.3574.4484-1.0084 1.4156-2.529 2.1335-3.3672 1.7668-2.063 4.1072-3.5724 6.6526-4.1125 1.0787-.2289 2.888-.2417 3.9761-.0595 2.6507.4439 4.5488 1.7126 6.3429 2.3695 1.0319.3779 2.8479.4314 3.944.3016 2.2618-.268 3.9426-1.0049 5.0477-1.6636.9464-.564 1.7553-.3159 1.9079.778.175 1.2542.3607 2.8984.3737 4.2956.0102 1.1015-.9524 2.4332-1.9879 2.815z"
+        :fill="squidColor"
+        :stroke="squidStrokeColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M137.004 111.8688c.4914-.3548 1.1544-1.0128 1.4197-2.286l-1.6724-6.0736-3.5813.8707-5.82 1.407 1.6205 5.3337c.4718 1.553 2.901 1.8788 4.5224 1.805 1.2813-.0583 2.4903-.3196 3.5111-1.0568z"
+        :fill="color"
+      />
+      <path
+        d="M189.87 86.7412s-3.656 3.996-5.4429 6.8665c-1.7869 2.8706-4.538 8.4576-4.538 8.4576-.5231 1.2636-2.4392.979-2.9439-.1228l-3.0975-6.7633-4.7631-10.4c-.3702-.8082.2734-1.714 1.1583-1.6305 0 0 4.0726-.9524 7.2452-1.0531 3.1725-.1007 7.6732.3499 11.5801 2.1534 1.8082.8347 1.3166 1.7676.8018 2.4922z"
+        :fill="squidColor"
+        :stroke="squidStrokeColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path d="M143.902 129.9744h9.8593v-9.8595h-9.8594" :fill="color" />
+      <path
+        d="M150.2373 104.0225s1.1033 8.0937-1.1343 14.7423c-1.1218 3.333-8.9537 8.705-14.049 11.9262-5.0952 3.2212-8.635 6.499-9.1808 10.4076-.5457 3.9087 1.8091 6.1766 4.259 6.615 8.0533 1.441 10.5852-6.5645 10.5852-6.5645s-8.239 6.122-10.3748 2.4719c-2.1358-3.65 5.9976-8.749 11.83-12.2663 5.8325-3.5174 10.3168-7.3113 12.8051-10.8656 3.7134-5.3039 3.2484-11.8357 3.2484-11.8357z"
+        :fill="squidColor"
+        :stroke="squidStrokeColor"
+        stroke-width="1.0016"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M129.1127 144.7636h4.5892c1.0828-.02 3.6762-1.4385 5.2702-2.5594v-7.3001h-9.8594"
+        :fill="color"
+      />
+      <path
+        d="M175.437 97.0314c10.0015-8.846 14.318-9.6292 14.5252-11.4767-10.9497-2.2653-21.9726 3.331-31.2135 6.1346-4.0308 1.2187-8.677 2.2399-9.8249 6.7345-1.1555 4.5233 1.5746 9.1269 6.0979 10.2824 4.5233 1.1555 8.4724-.2894 11.5288-3.3805 2.8407-2.4295-1.1149.5518 8.8866-8.2943z"
+        :fill="squidColor"
+        :stroke="squidStrokeColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <ellipse
+        transform="rotate(14.33)"
+        cx="179.5818"
+        cy="60.6188"
+        rx="3.2489"
+        ry="3.401"
+        fill="#fff"
+        stroke="#666"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <ellipse
+        transform="rotate(14.33)"
+        ry="1.2784"
+        rx="1.2822"
+        cy="61.7917"
+        cx="179.2811"
+        stroke="#000"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M167.5442 144.1814s-.0222 1.8695-.9801 2.8782c-.958 1.0087-2.0743 1.2609-3.3584.5274-3.3042-1.8874-2.2981-8.051-2.2981-8.051s.8801 6.4345 3.2652 5.6623c.525-.2244.2745-.6413.4117-.9619z"
+        :fill="squidColor"
+        :stroke="squidStrokeColor"
+        stroke-width="1.0016"
+        stroke-linejoin="round"
+      />
+      <path d="M163.7933 144.7636h4.7572v-1.91h-4.7572" :fill="color" />
+    </g>
+    <path
+      d="M44.1893 18.5724l6.0656-5.0103"
+      fill="#999"
+      :stroke="squidStrokeColor"
+      stroke-linecap="round"
+    />
+  </svg>
 </template>
 
-<style>
-.VueToNuxtLogo {
-  display: inline-block;
-  animation: turn 2s linear forwards 1s;
-  transform: rotateX(180deg);
-  position: relative;
-  overflow: hidden;
-  height: 180px;
-  width: 245px;
+<script>
+export default {
+  props: {
+    height: {
+      required: false,
+      type: Number,
+      default: 60,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'white',
+    },
+    squidStrokeColor: {
+      type: String,
+      required: false,
+      default: 'DarkSlateGray',
+    },
+    squidColor: {
+      type: String,
+      required: false,
+      default: 'LightSlateGrey',
+    },
+    squidBackgroundStrokeColor: {
+      type: String,
+      required: false,
+      default: 'transparent',
+    },
+    squidBackgroundColor: {
+      type: String,
+      required: false,
+      default: 'darkGrey',
+    },
+  },
 }
-
-.Triangle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-}
-
-.Triangle--one {
-  border-left: 105px solid transparent;
-  border-right: 105px solid transparent;
-  border-bottom: 180px solid #41b883;
-}
-
-.Triangle--two {
-  top: 30px;
-  left: 35px;
-  animation: goright 0.5s linear forwards 3.5s;
-  border-left: 87.5px solid transparent;
-  border-right: 87.5px solid transparent;
-  border-bottom: 150px solid #3b8070;
-}
-
-.Triangle--three {
-  top: 60px;
-  left: 35px;
-  animation: goright 0.5s linear forwards 3.5s;
-  border-left: 70px solid transparent;
-  border-right: 70px solid transparent;
-  border-bottom: 120px solid #35495e;
-}
-
-.Triangle--four {
-  top: 120px;
-  left: 70px;
-  animation: godown 0.5s linear forwards 3s;
-  border-left: 35px solid transparent;
-  border-right: 35px solid transparent;
-  border-bottom: 60px solid #fff;
-}
-
-@keyframes turn {
-  100% {
-    transform: rotateX(0deg);
-  }
-}
-
-@keyframes godown {
-  100% {
-    top: 180px;
-  }
-}
-
-@keyframes goright {
-  100% {
-    left: 70px;
-  }
-}
-</style>
+</script>
