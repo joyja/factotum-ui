@@ -182,7 +182,9 @@ export default {
   },
   computed: {
     containersCreating() {
-      return this.containers.filter((container) => !container.cloudInitComplete)
+      return this.containers
+        ? this.containers.filter((container) => !container.cloudInitComplete)
+        : []
     },
   },
   methods: {
