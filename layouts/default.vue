@@ -25,7 +25,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app dark>
+    <v-app-bar style="z-index: 10" :clipped-left="clipped" fixed app dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <div class="ma-1 d-flex align-center">
         <jar-logo :height="50" />
@@ -66,6 +66,9 @@
     <v-footer :absolute="!fixed" app dark>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
+    <v-snackbar v-model="showErrorSnack" top color="error">
+      {{ error }}
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -80,6 +83,7 @@ export default {
   },
   data() {
     return {
+      showErrorSnack: false,
       clipped: false,
       drawer: false,
       fixed: false,
@@ -109,6 +113,11 @@ export default {
           title: 'Networking',
           to: '/network',
         },
+        {
+          icon: 'mdi-account-multiple',
+          title: 'Users',
+          to: '/users',
+        },
       ],
       miniVariant: false,
       right: true,
@@ -117,7 +126,19 @@ export default {
     }
   },
   computed: {
-    ...mapState(['user']),
+    ...mapState(['showError', 'error', 'user']),
+  },
+  watch: {
+    showError(value) {
+      if (value) {
+        this.showErrorSnack = true
+      }
+    },
+    showErrorSnack(value) {
+      if (!value) {
+        this.setState({ key: 'showError', value: false })
+      }
+    },
   },
   methods: {
     logout() {

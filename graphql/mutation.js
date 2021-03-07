@@ -14,12 +14,84 @@ const login = gql`
 `
 
 const changePassword = gql`
-  mutation ChangePassword($oldPassword: String!, $newPassword: String!) {
-    changePassword(oldPassword: $oldPassword, newPassword: $newPassword) {
+  mutation ChangePassword($newPassword: String!, $newPasswordConfirm: String!) {
+    changePassword(
+      newPassword: $newPassword
+      newPasswordConfirm: $newPasswordConfirm
+    ) {
       ...UserBasic
     }
   }
   ${fragment.user}
+`
+
+const createUser = gql`
+  mutation CreateUser(
+    $username: String!
+    $password: String!
+    $passwordConfirm: String!
+  ) {
+    createUser(
+      username: $username
+      password: $password
+      passwordConfirm: $passwordConfirm
+    ) {
+      ...UserBasic
+    }
+  }
+  ${fragment.user}
+`
+
+const deleteUser = gql`
+  mutation DeleteUser($id: ID!) {
+    deleteUser(id: $id) {
+      id
+      username
+    }
+  }
+`
+
+const createOSUser = gql`
+  mutation CreateOSUser(
+    $username: String!
+    $password: String!
+    $passwordConfirm: String!
+  ) {
+    createOSUser(
+      username: $username
+      password: $password
+      passwordConfirm: $passwordConfirm
+    ) {
+      ...OSUserBasic
+    }
+  }
+  ${fragment.osUser}
+`
+
+const deleteOSUser = gql`
+  mutation DeleteOSUser($username: String!) {
+    deleteOSUser(username: $username) {
+      username
+    }
+  }
+`
+
+const addAuthorizedKey = gql`
+  mutation AddAuthorizedKey($username: String!, $key: String!) {
+    addAuthorizedKey(username: $username, key: $key) {
+      line
+      key
+    }
+  }
+`
+
+const deleteAuthorizedKey = gql`
+  mutation DeleteAuthorizedKey($username: String!, $line: Int!) {
+    deleteAuthorizedKey(username: $username, line: $line) {
+      line
+      key
+    }
+  }
 `
 
 const setDescription = gql`
@@ -68,12 +140,18 @@ const stopContainer = gql`
 `
 
 const restartContainer = gql`
-  mutation RetartContainer($containerName: String!) {
+  mutation RestartContainer($containerName: String!) {
     restartContainer(containerName: $containerName) {
       ...ContainerBasic
     }
   }
   ${fragment.container}
+`
+
+const getCloudInitOutputLog = gql`
+  mutation GetCloudInitOutputLog($containerName: String!) {
+    getCloudInitOutputLog(containerName: $containerName)
+  }
 `
 
 const setInterfaceConfig = gql`
@@ -99,10 +177,17 @@ export default {
   login,
   changePassword,
   setDescription,
+  createUser,
+  deleteUser,
+  createOSUser,
+  deleteOSUser,
+  addAuthorizedKey,
+  deleteAuthorizedKey,
   createContainer,
   deleteContainer,
   startContainer,
   stopContainer,
   restartContainer,
+  getCloudInitOutputLog,
   setInterfaceConfig,
 }

@@ -10,6 +10,27 @@ const user = gql`
   }
 `
 
+const users = gql`
+  query Users {
+    users {
+      id
+      username
+    }
+  }
+`
+
+const osUsers = gql`
+  query OSUsers {
+    osUsers {
+      username
+      authorizedKeys {
+        line
+        key
+      }
+    }
+  }
+`
+
 const profiles = gql`
   query Profiles {
     profiles {
@@ -48,6 +69,8 @@ const networkInterfaces = gql`
 
 export default {
   user,
+  users,
+  osUsers,
   containers,
   profiles,
   networkInterfaceConfigs,

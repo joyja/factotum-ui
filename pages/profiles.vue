@@ -156,6 +156,7 @@ import graphql from '~/graphql'
 
 export default {
   middleware: 'auth',
+  transition: 'slide-y-transition',
   async asyncData({ app, params }) {
     const provider = app.apolloProvider
     const client = provider.defaultClient

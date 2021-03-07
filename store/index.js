@@ -1,6 +1,8 @@
 import graphql from '~/graphql'
 export const state = () => ({
   user: null,
+  showError: false,
+  error: null,
 })
 
 export const mutations = {
@@ -14,6 +16,10 @@ export const mutations = {
     } else {
       throw new Error('You need to specify a state key to use setState.')
     }
+  },
+  setError(state, error) {
+    state.error = error
+    state.showError = true
   },
 }
 

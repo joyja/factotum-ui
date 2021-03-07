@@ -1,9 +1,26 @@
 import gql from 'graphql-tag'
 
+const authorizedKey = gql`
+  fragment AuthorizedKeyBasic on AuthorizedKey {
+    line
+    key
+  }
+`
+
 const user = gql`
   fragment UserBasic on User {
     id
     username
+  }
+`
+
+const osUser = gql`
+  fragment OSUserBasic on OSUser {
+    username
+    authorizedKeys {
+      line
+      key
+    }
   }
 `
 
@@ -98,7 +115,9 @@ const networkInterface = gql`
 `
 
 export default {
+  authorizedKey,
   user,
+  osUser,
   container,
   config,
   profile,

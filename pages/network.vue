@@ -226,7 +226,8 @@ import isIp from 'is-ip'
 import graphql from '~/graphql'
 
 export default {
-  middlware: 'auth',
+  middleware: 'auth',
+  transition: 'slide-y-transition',
   async asyncData({ app, params }) {
     const provider = app.apolloProvider
     const client = provider.defaultClient

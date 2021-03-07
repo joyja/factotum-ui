@@ -93,6 +93,7 @@ export default {
     fContentCard: ContentCard,
   },
   middleware: 'auth',
+  transition: 'slide-y-transition',
   async asyncData({ $content, params }) {
     const docs = {}
     const contentFiles = [
