@@ -7,6 +7,7 @@
       fixed
       app
       dark
+      style="z-index: 11"
     >
       <v-list>
         <v-list-item

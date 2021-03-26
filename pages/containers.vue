@@ -19,7 +19,11 @@
         color="blue-grey lighten-3"
       >
         <v-card-title>
-          <v-list-item style="width: 100%" dense>
+          <v-list-item
+            style="width: 100%"
+            dense
+            :to="{ name: 'container-id', params: { id: container.name } }"
+          >
             <v-list-item-avatar horizontal rounded="0">
               <v-row align="end" no-gutters>
                 <v-avatar
@@ -133,8 +137,13 @@
             </v-row>
           </v-card-text>
         </v-expand-transition>
-        <v-card-actions class="justify-space-between">
-          <div>
+        <v-card-actions
+          :class="{
+            'justify-space-between': configs.length >= index + 1,
+            'justify-end': configs.length < index + 1,
+          }"
+        >
+          <div v-if="configs[index]">
             <v-dialog v-model="configs[index].showDialog" width="600px">
               <v-form @submit.prevent="setDescription(index)">
                 <v-card>
@@ -260,6 +269,17 @@ export default {
       }),
       error,
     }
+  },
+  watchers: {
+    containers(value) {
+      this.configs = value.map(({ description }) => {
+        return {
+          description,
+          showDialog: false,
+          showDeleteDialog: false,
+        }
+      })
+    },
   },
   methods: {
     getPort(application) {
