@@ -105,11 +105,6 @@ export default {
           to: '/profiles',
         },
         {
-          icon: 'mdi-engine',
-          title: 'Operations',
-          // to: '/inspire',
-        },
-        {
           icon: 'mdi-network',
           title: 'Networking',
           to: '/network',
